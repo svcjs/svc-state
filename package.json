@@ -1,0 +1,41 @@
+{
+  "name": "svc-state",
+  "version": "0.0.1",
+  "description": "a state freamwork",
+  "main": "src/State.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svcjs/svc-state.git"
+  },
+  "author": {
+    "name": "Star",
+    "email": "star3s@126.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/svcjs/svc-state/issues"
+  },
+  "homepage": "https://github.com/svcjs/svc-state#readme",
+  "scripts": {
+    "lint": "standard --fix rollup.config.js test/** src/**",
+    "test": "nyc ava test/*.js",
+    "test-watch": "watch -p '+(test|src)/*.js' -c 'ava test/*.js'",
+    "build": "rm -rf dist && rollup -c",
+    "build-min": "uglifyjs ./dist/State.js -o ./dist/State.min.js -c warnings=false -m"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "nyc": "^10.3.2",
+    "rollup": "^0.41.4",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "standard": "^10.0.2",
+    "uglify-js": "^3.0.11",
+    "watch-cli": "^0.2.1"
+  }
+}
