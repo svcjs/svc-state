@@ -1,6 +1,6 @@
 {
   "name": "svc-state",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a state freamwork",
   "main": "src/State.js",
   "repository": {
