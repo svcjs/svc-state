@@ -52,11 +52,15 @@ class State {
         if (typeof target === 'function') {
           // direct call function
           target(this._changedStates)
-        } else {
+        } else if (typeof target === 'object') {
           // call object's [set or setData]
           let settingFunction = target['setState'] ? target['setState'] : (target['setData'] ? target['setData'] : null)
           if (settingFunction && typeof settingFunction === 'function') {
             settingFunction.call(target, this._changedStates)
+          } else {
+            for (let key in this._changedStates) {
+              target[key] = this._changedStates[key]
+            }
           }
         }
       }

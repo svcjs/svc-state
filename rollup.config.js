@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 
 export default {
-  entry: 'src/State.js',
+  entry: 'src/index.js',
   dest: 'dist/State.js',
   format: 'umd',
   moduleName: 'svc-state',

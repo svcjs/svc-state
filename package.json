@@ -1,8 +1,8 @@
 {
   "name": "svc-state",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a state freamwork",
-  "main": "src/State.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/svcjs/svc-state.git"

@@ -1,5 +1,5 @@
 import test from 'ava'
-import State from '../'
+import { State } from '../'
 
 let partConfigs = {left: '*cc', middle: 'aa*cc', right: 'aa*'}
 for (let testName in partConfigs) {

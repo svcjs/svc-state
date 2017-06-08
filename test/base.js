@@ -1,5 +1,5 @@
 import test from 'ava'
-import State from '../'
+import { State } from '../'
 
 test('simple', t => {
   return new Promise((resolve, reject) => {
@@ -9,6 +9,20 @@ test('simple', t => {
       resolve()
     })
     s.set('aaa', 111)
+  })
+})
+
+test('in object', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State()
+    let o = {name: 'xxx'}
+    s.bind(['aaa', 'bbb'], o)
+    s.set('aaa', 111)
+    s.set('bbb', '222')
+    setTimeout(() => {
+      t.true(o.name === 'xxx' && o.aaa === 111 && o.bbb === '222')
+      resolve()
+    }, 1)
   })
 })
 
@@ -40,18 +54,22 @@ test('in set', t => {
   return new Promise((resolve, reject) => {
     let times = 0
     let s = new State()
-    let o = {setState: (data) => {
-      t.true(data['aaa'] === 'hello')
-      if (++times === 2) {
-        resolve()
+    let o = {
+      setState: (data) => {
+        t.true(data['aaa'] === 'hello')
+        if (++times === 2) {
+          resolve()
+        }
       }
-    }}
-    let o2 = {setState: (data) => {
-      t.true(data['aaa'] === 'hello')
-      if (++times === 2) {
-        resolve()
+    }
+    let o2 = {
+      setState: (data) => {
+        t.true(data['aaa'] === 'hello')
+        if (++times === 2) {
+          resolve()
+        }
       }
-    }}
+    }
     s.bind('aaa', o)
     s.bind('aaa', o2)
     s.set({aaa: 'hello'})
@@ -61,11 +79,13 @@ test('in set', t => {
 test('in setData', t => {
   return new Promise((resolve, reject) => {
     let s = new State()
-    let o = {setData: () => {
-      let data = s.get(['aaa', 'bbb', 'ccc'])
-      t.true(data.aaa === 'hello' && data.bbb === 123 && data.ccc === false)
-      resolve()
-    }}
+    let o = {
+      setData: () => {
+        let data = s.get(['aaa', 'bbb', 'ccc'])
+        t.true(data.aaa === 'hello' && data.bbb === 123 && data.ccc === false)
+        resolve()
+      }
+    }
     s.bind('*', o)
     s.set('aaa', 'hello')
     s.set({bbb: 123, ccc: false})
@@ -75,11 +95,13 @@ test('in setData', t => {
 test('in special method', t => {
   return new Promise((resolve, reject) => {
     let s = new State()
-    let o = {setXXX: () => {
-      let aaa = s.get('aaa')
-      t.true(aaa === 'hello')
-      resolve()
-    }}
+    let o = {
+      setXXX: () => {
+        let aaa = s.get('aaa')
+        t.true(aaa === 'hello')
+        resolve()
+      }
+    }
     s.bind('aaa', o.setXXX.bind(o))
     s.set('aaa', 'hello')
   })
@@ -88,10 +110,12 @@ test('in special method', t => {
 test('unbind', t => {
   return new Promise((resolve, reject) => {
     let s = new State()
+
     function bindFunction (data) {
       t.true(false)
       resolve()
     }
+
     s.bind('aaa', bindFunction)
     s.unbind('aaa', bindFunction)
     s.set('aaa', 111)
@@ -105,10 +129,12 @@ test('unbind', t => {
 test('unbind2', t => {
   return new Promise((resolve, reject) => {
     let s = new State()
+
     function bindFunction (data) {
       t.true(false)
       resolve()
     }
+
     s.bind('aaa', bindFunction)
     s.unbind(['aaa'], bindFunction)
     s.set('aaa', 111)
