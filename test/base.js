@@ -1,5 +1,5 @@
 import test from 'ava'
-import { State } from '../'
+import { State } from '../src/index'
 
 test('simple', t => {
   return new Promise((resolve, reject) => {
@@ -9,6 +9,71 @@ test('simple', t => {
       resolve()
     })
     s.set('aaa', 111)
+  })
+})
+
+test('return changes', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State('changes')
+    s.state.ccc = 3.1
+    s.bind('aaa', (data) => {
+      t.true(data.aaa === 111 && data.bbb === '222' && data.ccc === undefined)
+      resolve()
+    })
+    s.set('aaa', 111)
+    s.set('bbb', '222')
+  })
+})
+
+test('return binds', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State('binds')
+    s.state.ccc = 3.1
+    s.bind('aaa', (data) => {
+      t.true(data.aaa === 111 && data.bbb === undefined && data.ccc === undefined)
+      resolve()
+    })
+    s.set('aaa', 111)
+    s.set('bbb', '222')
+  })
+})
+
+test('return all', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State('all')
+    s.state.ccc = 3.1
+    s.bind('aaa', (data) => {
+      t.true(data.aaa === 111 && data.bbb === '222' && data.ccc === 3.1)
+      resolve()
+    })
+    s.set('aaa', 111)
+    s.set('bbb', '222')
+  })
+})
+
+test('return all by binds', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State('binds')
+    s.state.ccc = 3.1
+    s.bind('*', (data) => {
+      t.true(data.aaa === 111 && data.bbb === '222' && data.ccc === 3.1)
+      resolve()
+    })
+    s.set('aaa', 111)
+    s.set('bbb', '222')
+  })
+})
+
+test('return none', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State('none')
+    s.state.ccc = 3.1
+    s.bind('aaa', (data) => {
+      t.true(data.aaa === undefined && data.bbb === undefined && data.ccc === undefined)
+      resolve()
+    })
+    s.set('aaa', 111)
+    s.set('bbb', '222')
   })
 })
 
@@ -36,6 +101,22 @@ test('in loop', t => {
     for (let i = 1; i < 10; i++) {
       s.set('aaa', i)
     }
+  })
+})
+
+test('callback', t => {
+  return new Promise((resolve, reject) => {
+    let s = new State()
+    let i = 1
+    s.bind('aaa', (data) => {
+      t.true(data.aaa === 111)
+      i = 2
+      resolve()
+    })
+    s.set('aaa', 111).then(() => {
+      t.true(i === 2)
+    })
+    t.true(i === 1)
   })
 })
 
@@ -97,8 +178,8 @@ test('in special method', t => {
     let s = new State()
     let o = {
       setXXX: () => {
-        let aaa = s.get('aaa')
-        t.true(aaa === 'hello')
+        let data = s.get('aaa')
+        t.true(data.aaa === 'hello')
         resolve()
       }
     }

@@ -1,8 +1,10 @@
 {
   "name": "svc-state",
-  "version": "0.0.3",
+  "version": "0.0.8",
   "description": "a state freamwork",
-  "main": "src/index.js",
+  "main": "dist/svc-state.cjs.js",
+  "module": "dist/svc-state.es.js",
+  "jsnext:main": "dist/svc-state.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/svcjs/svc-state.git"
@@ -20,8 +22,18 @@
     "lint": "standard --fix rollup.config.js test/** src/**",
     "test": "nyc ava test/*.js",
     "test-watch": "watch -p '+(test|src)/*.js' -c 'ava test/*.js'",
-    "build": "rm -rf dist && rollup -c",
-    "build-min": "uglifyjs ./dist/State.js -o ./dist/State.min.js -c warnings=false -m"
+    "build": "rm -rf dist && rollup -c && uglifyjs ./dist/svc-state.js -o ./dist/svc-state.min.js -c warnings=false -m",
+    "test-build": "chmod +x test.sh && ./test.sh dist/svc-state.cjs && ./test.sh dist/svc-state.es && ./test.sh dist/svc-state && ./test.sh dist/svc-state.min && ./test.sh",
+    "build-all": "npm run lint && npm run test && npm run build && npm run test-build"
+  },
+  "ava": {
+    "require": "babel-register",
+    "babel": "inherit"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   },
   "devDependencies": {
     "ava": "^0.19.1",

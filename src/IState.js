@@ -1,4 +1,4 @@
-class IState {
+export default class IState {
   // 获取数据，传入数组一次取多个，也可以直接访问State对象不通过 get
   get (keyOrKeys) {
   }
@@ -15,5 +15,3 @@ class IState {
   unbind (target, keyOrKeys) {
   }
 }
-
-module.exports = IState

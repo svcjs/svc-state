@@ -1,5 +1,5 @@
 import test from 'ava'
-import { State } from '../'
+import { State } from '../src/index'
 
 let partConfigs = {left: '*cc', middle: 'aa*cc', right: 'aa*'}
 for (let testName in partConfigs) {
@@ -7,7 +7,9 @@ for (let testName in partConfigs) {
     return new Promise((resolve, reject) => {
       let s = new State()
       s.bind(partConfigs[testName], (data) => {
+        let gettedData = s.get(partConfigs[testName])
         t.true(data['aabbcc'] === 111)
+        t.true(gettedData['aabbcc'] === 111)
         resolve()
       })
       s.set('aabbcc', 111)

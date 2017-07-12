@@ -1,3 +1,3 @@
-let State = require('./State')
+import State from './State'
 
-module.exports = {State: State}
+export { State }
