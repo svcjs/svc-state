@@ -8,10 +8,10 @@ export default class IState {
   }
 
   // 绑定数据变化通知
-  bind (target, keyOrKeys) {
+  bind (keyOrKeys, target) {
   }
 
   // 取消绑定
-  unbind (target, keyOrKeys) {
+  unbind (keyOrKeys, target) {
   }
 }

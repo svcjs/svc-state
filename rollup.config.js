@@ -9,7 +9,7 @@ export default {
     { dest: 'dist/svc-state.cjs.js', format: 'cjs' },
     { dest: 'dist/svc-state.es.js', format: 'es' }
   ],
-  moduleName: 'svc-state',
+  moduleName: 'svcState',
   plugins: [
     babel({
       babelrc: false,
