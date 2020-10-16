@@ -7,6 +7,8 @@ export default class State {
     this._binds = {}
     this._partBindsCache = {}
     this._tid = 0
+    this._bindId = 0
+    this.id = new Date().getTime()
   }
 
   _testIfMatch (partKey, realKey) {
@@ -152,6 +154,9 @@ export default class State {
     }
 
     // 构建回调对象
+    this._bindId++
+    bindTarget.id = this._bindId
+
     if (typeof target === 'function') {
       // direct call function
       bindTarget.func = target
@@ -177,6 +182,7 @@ export default class State {
       this._binds[key].push(bindTarget)
       this._partBindsCache[key] = null
     }
+    return bindTarget.id
   }
 
   // 取消绑定
@@ -190,7 +196,7 @@ export default class State {
       if (bindTargets) {
         for (let i = bindTargets.length - 1; i >= 0; i--) {
           let bindTarget = bindTargets[i]
-          if ((bindTarget.object === target || bindTarget.func === target) && JSON.stringify(bindTarget.keys) === jsonKeys) {
+          if (!target || bindTarget.id === target || (bindTarget.object === target || bindTarget.func === target) && JSON.stringify(bindTarget.keys) === jsonKeys) {
             this._binds[key].splice(i, 1)
           }
         }
@@ -198,5 +204,14 @@ export default class State {
       this._partBindsCache[key] = null
     }
     this._partBindsCache = {}
+  }
+
+  clean () {
+    this.state = {}
+    this._changedStates = {}
+    this._setResolves = []
+    this._binds = {}
+    this._partBindsCache = {}
+    this._tid = 0
   }
 }
