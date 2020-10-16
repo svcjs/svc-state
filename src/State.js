@@ -155,6 +155,12 @@ export default class State {
     if (typeof target === 'function') {
       // direct call function
       bindTarget.func = target
+    } else if (target instanceof Array && target.length === 2 && typeof target[1] === 'function') {
+      bindTarget.object = target[0]
+      bindTarget.func = target[1]
+    } else if (target instanceof Array && target.length === 2 && typeof target[0][target[1]] === 'function') {
+      bindTarget.object = target[0]
+      bindTarget.func = target[0][target[1]]
     } else if (typeof target === 'object') {
       // call object's [set or setData]
       let settingFunction = target['setState'] ? target['setState'] : (target['setData'] ? target['setData'] : null)

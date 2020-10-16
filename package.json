@@ -1,6 +1,6 @@
 {
   "name": "svc-state",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "a state freamwork",
   "main": "dist/svc-state.cjs.js",
   "module": "dist/svc-state.es.js",
