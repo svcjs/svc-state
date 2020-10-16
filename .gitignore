@@ -1,0 +1,8 @@
+.*
+!.npmignore
+!.gitlab-ci.yml
+!.eslintrc
+/coverage
+/node_modules
+/dist
+/pub
